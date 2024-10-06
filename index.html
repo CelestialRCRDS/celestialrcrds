@@ -1,27 +1,28 @@
 <html>
 <script>
-var _MWP_ConsoleLog = console.log;
-var _MWP_ConsoleWarn = console.warn;
-var _MWP_ConsoleError = console.error;
-console.log = function(...args) 
-{
-  var p = window.parent; if (p !== window) p.postMessage({type:'console.log',args },"*");
-  _MWP_ConsoleLog(...args);
-}
-console.warn = function(...args) 
-{
-  var p = window.parent; if (p !== window) p.postMessage({type:'console.warn',args },"*");
-  _MWP_ConsoleWarn(...args);
-}
-console.error = function(...args) 
-{
-  var p = window.parent; if (p !== window) p.postMessage({type:'console.error',args },"*");
-  _MWP_ConsoleError(...args);
-}
-window.addEventListener("error", function(e) {
-  parent.postMessage({type:'iframe.exception',content:{message: e.message, source: e.filename, lineno: e.lineno, colno: e.colno}},"*");
-});
-</script><!DOCTYPE html>
+    var _MWP_ConsoleLog = console.log;
+    var _MWP_ConsoleWarn = console.warn;
+    var _MWP_ConsoleError = console.error;
+    console.log = function(...args) 
+    {
+      var p = window.parent; if (p !== window) p.postMessage({type:'console.log',args },"*");
+      _MWP_ConsoleLog(...args);
+    }
+    console.warn = function(...args) 
+    {
+      var p = window.parent; if (p !== window) p.postMessage({type:'console.warn',args },"*");
+      _MWP_ConsoleWarn(...args);
+    }
+    console.error = function(...args) 
+    {
+      var p = window.parent; if (p !== window) p.postMessage({type:'console.error',args },"*");
+      _MWP_ConsoleError(...args);
+    }
+    window.addEventListener("error", function(e) {
+      parent.postMessage({type:'iframe.exception',content:{message: e.message, source: e.filename, lineno: e.lineno, colno: e.colno}},"*");
+    });
+</script>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -135,6 +136,128 @@ window.addEventListener("error", function(e) {
             }
         }
     </style>
+
+    <style>
+        /* 重置样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #e0e0e0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.1),
+                        -5px -5px 15px rgba(255, 255, 255, 0.8);
+            max-width: 400px;
+            width: 100%;
+            margin-bottom: 20px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .container:hover {
+            transform: translateY(-5px);
+            box-shadow: 8px 8px 20px rgba(0, 0, 0, 0.2),
+                        -8px -8px 20px rgba(255, 255, 255, 0.9);
+        }
+        
+        .brand-intro, .contact-us, .tracks {
+            text-align: center;
+            padding: 40px 20px;
+            background-color: #f7f7f7;
+            border-radius: 16px;
+            margin-bottom: 20px;
+            box-shadow: 3px 3px 7px rgba(0, 0, 0, 0.1),
+                        -3px -3px 7px rgba(255, 255, 255, 0.6);
+            transition: box-shadow 0.3s ease;
+        }
+        
+        .brand-intro:hover, .contact-us:hover, .tracks:hover {
+            box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.2),
+                        -4px -4px 8px rgba(255, 255, 255, 0.7);
+        }
+        
+        h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-weight: bold;
+        }
+        
+        p {
+            color: #666;
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        img {
+            width: 100%;
+            max-width: 600px;
+            height: auto;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.1),
+                        -5px -5px 15px rgba(255, 255, 255, 0.8);
+            transition: transform 0.3s ease;
+        }
+        
+        img:hover {
+            transform: scale(1.05);
+        }
+        
+        .social-links, .tracks-list {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .social-links li, .tracks-list li {
+            margin: 10px;
+        }
+        
+        .social-links a, .tracks-list a {
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+            transition: color 0.3s ease, transform 0.3s ease;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .social-links a:hover, .tracks-list a:hover {
+            text-decoration: underline;
+            color: #4ca1af;
+            transform: scale(1.1);
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px 10px;
+            }
+        
+            .brand-intro, .contact-us, .tracks {
+                padding: 20px 10px;
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -145,26 +268,11 @@ window.addEventListener("error", function(e) {
             <p>「Celestial RCRDS 天体记录」，一个新兴的音乐厂牌，自2024/8/27起，以其独特的魅力和创新精神，迅速在音乐界崭露头角。我们正以无限的创造力和热情，共同推动着厂牌的不断成长和扩张。
 
                 在这里，每个人都可以勇敢地追逐自己的梦想，不受限制地探索音乐的可能性。我们相信，通过不懈的努力和创新，我们能够一起超越极限，达到梦想的云端。</p>
-            
+
             <p>加入「Celestial RCRDS」，成为我们的一部分，让我们一起在音乐的星空中翱翔，探索未知，创造未来。我们期待与您一起，让音乐的星光照亮每一个角落。
         </div>
     </section>
 
-    <!-- 联系我们部分 -->
-    <section class="contact-us">
-        <div class="container">
-            <h1>联系我们</h1>
-            <p>更多信息</p>
-            <ul class="social-links">
-                <li><a href="https://space.bilibili.com/3546768253913631" target="_blank">Bilibili</a></li>
-                <li><a href="https://music.163.com/#/artist?id=94949855" target="_blank">网易云</a></li>
-                <li><a href="https://y.qq.com/n/ryqq/singer/004fHI8a4EhZLL" target="_blank">QQ Music</a></li>
-                <li><a href="https://www.kugou.com/singer/info/D28HQKBFC65B69/" target="_blank">KuGou</a></li>
-                <!-- 更多链接 -->
-                <p>E-mail:Celestialrcrds@foxmail.com</p>
-            </ul>
-        </div>
-    </section>
 
     <!-- 发布过的曲目部分 -->
     <section class="tracks">
@@ -180,36 +288,30 @@ window.addEventListener("error", function(e) {
             </ul>
         </div>
     </section>
+    <!-- 联系我们部分 -->
+    <section class="contact-us">
+        <div class="container">
 
-    <!-- 投稿表单部分 -->
-    <div class="container">
-        <h1>Submit Your Music</h1>
-        <form action="https://forms.gle/YOUR_FORM_ID" method="POST" enctype="multipart/form-data">
-            <label for="name">Song Title*:</label>
-            <input type="text" id="name" name="name" required>
+            <h1>联系我们以及投稿</h1>
+            <p>更多信息</p>
+            <ul class="social-links">
+                <li><a href="https://space.bilibili.com/3546768253913631" target="_blank">Bilibili</a></li>
+                <li><a href="https://music.163.com/#/artist?id=94949855" target="_blank">网易云</a></li>
+                <li><a href="https://y.qq.com/n/ryqq/singer/004fHI8a4EhZLL" target="_blank">QQ Music</a></li>
+                <li><a href="https://www.kugou.com/singer/info/D28HQKBFC65B69/" target="_blank">KuGou</a></li>
+                <!-- 更多链接 -->
+                <li>
+                    <p4>投稿至邮箱 </p4>
+                </li>
 
-            <label for="name">Your Name*:</label>
-            <input type="text" id="name" name="name" required>
+                <h2><a href="mailto:celestialrcrds@foxmail.com">Celestialrcrds@foxmail.com</a></h2>
+            </ul>
+        </div>
+    </section>
 
-            <label for="email">Email*:</label>
-            <input type="email" id="email" name="email" required>
-
-            <label for="name">Track Name*:</label>
-            <input type="text" id="name" name="name" required>
-
-            <label for="name">Artist Name*:</label>
-            <input type="text" id="name" name="name" required>
-
-            <label for="music">Music File*:</label>
-            <input type="file" id="music" name="music" required>
-
-            <label for="name">Other:</label>
-            <input type="text" id="name" name="name" required>
-
-            <button type="submit">Submit</button>
-        </form>
-    </div>
-    <script src="script.js"></script>
 </body>
 
-<style></style><script></script></html>
+<style></style>
+<script></script>
+
+</html>
