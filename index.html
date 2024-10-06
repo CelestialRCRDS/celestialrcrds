@@ -1,0 +1,215 @@
+<html>
+<script>
+var _MWP_ConsoleLog = console.log;
+var _MWP_ConsoleWarn = console.warn;
+var _MWP_ConsoleError = console.error;
+console.log = function(...args) 
+{
+  var p = window.parent; if (p !== window) p.postMessage({type:'console.log',args },"*");
+  _MWP_ConsoleLog(...args);
+}
+console.warn = function(...args) 
+{
+  var p = window.parent; if (p !== window) p.postMessage({type:'console.warn',args },"*");
+  _MWP_ConsoleWarn(...args);
+}
+console.error = function(...args) 
+{
+  var p = window.parent; if (p !== window) p.postMessage({type:'console.error',args },"*");
+  _MWP_ConsoleError(...args);
+}
+window.addEventListener("error", function(e) {
+  parent.postMessage({type:'iframe.exception',content:{message: e.message, source: e.filename, lineno: e.lineno, colno: e.colno}},"*");
+});
+</script><!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Submission Form</title>
+    <link rel="stylesheet" href="styles.css">
+
+    <style>
+        /* 重置样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(to right, #4ca1af, #c4e0e5);
+            display: grid;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+            transform: scale(0.95);
+            transition: transform 0.3s ease;
+        }
+        
+        .container:hover {
+            transform: scale(1);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+        
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 2rem;
+            font-size: 24px;
+        }
+        
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        label {
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #666;
+        }
+        
+        input[type="text"],
+        input[type="email"],
+        input[type="file"] {
+            padding: 12px;
+            margin-bottom: 16px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        input[type="file"]:focus {
+            outline: none;
+            border-color: #4ca1af;
+            box-shadow: 0 0 8px rgba(76, 161, 175, 0.5);
+        }
+        
+        button {
+            padding: 14px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            border-radius: 4px;
+            background: linear-gradient(to right, #4ca1af, #c4e0e5);
+            color: white;
+            font-weight: bold;
+            text-transform: uppercase;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: background 0.3s ease, transform 0.3s ease;
+        }
+        
+        button:hover {
+            background: linear-gradient(to right, #3b8fa9, #a9d3de);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        button:active {
+            transform: translateY(2px);
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 600px) {
+            .container {
+                margin: 1rem;
+                width: auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 厂牌介绍部分 -->
+    <section class="contact-us">
+        <div class="container">
+            <h1>Celestial RCRDS</h1>
+            <p>「Celestial RCRDS 天体记录」，一个新兴的音乐厂牌，自2024/8/27起，以其独特的魅力和创新精神，迅速在音乐界崭露头角。我们正以无限的创造力和热情，共同推动着厂牌的不断成长和扩张。
+
+                在这里，每个人都可以勇敢地追逐自己的梦想，不受限制地探索音乐的可能性。我们相信，通过不懈的努力和创新，我们能够一起超越极限，达到梦想的云端。</p>
+            
+            <p>加入「Celestial RCRDS」，成为我们的一部分，让我们一起在音乐的星空中翱翔，探索未知，创造未来。我们期待与您一起，让音乐的星光照亮每一个角落。
+        </div>
+    </section>
+
+    <!-- 联系我们部分 -->
+    <section class="contact-us">
+        <div class="container">
+            <h1>联系我们</h1>
+            <p>更多信息</p>
+            <ul class="social-links">
+                <li><a href="https://space.bilibili.com/3546768253913631" target="_blank">Bilibili</a></li>
+                <li><a href="https://music.163.com/#/artist?id=94949855" target="_blank">网易云</a></li>
+                <li><a href="https://y.qq.com/n/ryqq/singer/004fHI8a4EhZLL" target="_blank">QQ Music</a></li>
+                <li><a href="https://www.kugou.com/singer/info/D28HQKBFC65B69/" target="_blank">KuGou</a></li>
+                <!-- 更多链接 -->
+                <p>E-mail:Celestialrcrds@foxmail.com</p>
+            </ul>
+        </div>
+    </section>
+
+    <!-- 发布过的曲目部分 -->
+    <section class="tracks">
+        <div class="container">
+            <h1>发行曲目</h1>
+            <p>探索我们发行的精选曲目：</p>
+            <ul class="tracks-list">
+                <li><a href="https://music.163.com/#/album?id=246759366" target="_blank">Image Of You</a></li>
+                <li><a href="https://music.163.com/#/album?id=247378266" target="_blank">U Like A Firefly</a></li>
+                <li><a href="https://music.163.com/#/album?id=248233410" target="_blank">Dissolution</a></li>
+                <li><a href="https://music.163.com/#/album?id=246699692" target="_blank">Gone In The Morning</a></li>
+                <!-- 更多曲目 -->
+            </ul>
+        </div>
+    </section>
+
+    <!-- 投稿表单部分 -->
+    <div class="container">
+        <h1>Submit Your Music</h1>
+        <form action="https://forms.gle/YOUR_FORM_ID" method="POST" enctype="multipart/form-data">
+            <label for="name">Song Title*:</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="name">Your Name*:</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="email">Email*:</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="name">Track Name*:</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="name">Artist Name*:</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="music">Music File*:</label>
+            <input type="file" id="music" name="music" required>
+
+            <label for="name">Other:</label>
+            <input type="text" id="name" name="name" required>
+
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+<style></style><script></script></html>
