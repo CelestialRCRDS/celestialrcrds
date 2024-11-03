@@ -1,464 +1,235 @@
-<meta name=”viewport” content=”width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no” />
-<html>
-<script>
-    var _MWP_ConsoleLog = console.log;
-    var _MWP_ConsoleWarn = console.warn;
-    var _MWP_ConsoleError = console.error;
-    console.log = function(...args) 
-    {
-      var p = window.parent; if (p !== window) p.postMessage({type:'console.log',args },"*");
-      _MWP_ConsoleLog(...args);
-    }
-    console.warn = function(...args) 
-    {
-      var p = window.parent; if (p !== window) p.postMessage({type:'console.warn',args },"*");
-      _MWP_ConsoleWarn(...args);
-    }
-    console.error = function(...args) 
-    {
-      var p = window.parent; if (p !== window) p.postMessage({type:'console.error',args },"*");
-      _MWP_ConsoleError(...args);
-    }
-    window.addEventListener("error", function(e) {
-      parent.postMessage({type:'iframe.exception',content:{message: e.message, source: e.filename, lineno: e.lineno, colno: e.colno}},"*");
-    });
-</script>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Music Submission Form</title>
-    <link rel="ico" href="./image/favicon.ico">
-
-    <style>
-        /* 重置样式 */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            transition: all 0.3s ease;
-        }
-        
-        body {
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(to right, #4ca1af, #c4e0e5);
-            display: grid;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            overflow-x: hidden;
-        }
-        
-        .container {
-            background: white;
-            padding: 2rem;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            max-width: 400px;
-            width: 100%;
-            transform: scale(0.95);
-            transition: transform 0.3s ease;
-        }
-        
-        .container:hover {
-            transform: scale(1);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-        }
-        
-        h1 {
-            text-align: center;
-            color: #333;
-            margin-bottom: 2rem;
-            font-size: 24px;
-        }
-        
-        form {
-            display: flex;
-            flex-direction: column;
-        }
-        
-        label {
-            font-weight: bold;
-            margin-bottom: 8px;
-            color: #666;
-        }
-        
-        input[type="text"],
-        input[type="email"],
-        input[type="file"] {
-            padding: 12px;
-            margin-bottom: 16px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 14px;
-            transition: border-color 0.3s ease, box-shadow 0.3s ease;
-        }
-        
-        input[type="text"]:focus,
-        input[type="email"]:focus,
-        input[type="file"]:focus {
-            outline: none;
-            border-color: #4ca1af;
-            box-shadow: 0 0 8px rgba(76, 161, 175, 0.5);
-        }
-        
-        button {
-            padding: 14px 20px;
-            font-size: 16px;
-            cursor: pointer;
-            border: none;
-            border-radius: 4px;
-            background: linear-gradient(to right, #4ca1af, #c4e0e5);
-            color: white;
-            font-weight: bold;
-            text-transform: uppercase;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            transition: background 0.3s ease, transform 0.3s ease;
-        }
-        
-        button:hover {
-            background: linear-gradient(to right, #3b8fa9, #a9d3de);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-        
-        button:active {
-            transform: translateY(2px);
-        }
-        
-        /* 响应式设计 */
-        @media (max-width: 600px) {
-            .container {
-                margin: 1rem;
-                width: auto;
-            }
-        }
-    </style>
-
-    <style>
-        /* 重置样式 */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            transition: all 0.3s ease;
-        }
-        
-        body {
-            font-family: 'Arial', sans-serif;
-            background: #e0e0e0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            overflow-x: hidden;
-        }
-        
-        .container {
-            background: #fff;
-            padding: 2rem;
-            border-radius: 16px;
-            box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.1),
-                        -5px -5px 15px rgba(255, 255, 255, 0.8);
-            max-width: 400px;
-            width: 100%;
-            margin-bottom: 20px;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        
-        .container:hover {
-            transform: translateY(-5px);
-            box-shadow: 8px 8px 20px rgba(0, 0, 0, 0.2),
-                        -8px -8px 20px rgba(255, 255, 255, 0.9);
-        }
-        
-        .brand-intro, .contact-us, .tracks {
-            text-align: center;
-            padding: 40px 20px;
-            background-color: #f7f7f7;
-            border-radius: 16px;
-            margin-bottom: 20px;
-            box-shadow: 3px 3px 7px rgba(0, 0, 0, 0.1),
-                        -3px -3px 7px rgba(255, 255, 255, 0.6);
-            transition: box-shadow 0.3s ease;
-        }
-        
-        .brand-intro:hover, .contact-us:hover, .tracks:hover {
-            box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.2),
-                        -4px -4px 8px rgba(255, 255, 255, 0.7);
-        }
-        
-        h2 {
-            color: #333;
-            margin-bottom: 20px;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            font-weight: bold;
-        }
-        
-        p {
-            color: #666;
-            font-size: 16px;
-            line-height: 1.6;
-            margin-bottom: 20px;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
-        img {
-            width: 100%;
-            max-width: 600px;
-            height: auto;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.1),
-                        -5px -5px 15px rgba(255, 255, 255, 0.8);
-            transition: transform 0.3s ease;
-        }
-        
-        img:hover {
-            transform: scale(1.05);
-        }
-        
-        .social-links, .tracks-list {
-            list-style: none;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-        
-        .social-links li, .tracks-list li {
-            margin: 10px;
-        }
-        
-        .social-links a, .tracks-list a {
-            text-decoration: none;
-            color: #333;
-            font-weight: bold;
-            transition: color 0.3s ease, transform 0.3s ease;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
-        .social-links a:hover, .tracks-list a:hover {
-            text-decoration: underline;
-            color: #4ca1af;
-            transform: scale(1.1);
-        }
-        
-        /* 响应式设计 */
-        @media (max-width: 600px) {
-            .container {
-                padding: 20px 10px;
-            }
-        
-            .brand-intro, .contact-us, .tracks {
-                padding: 20px 10px;
-            }
-        }
-    </style>
-
-    <style>
-        /* 重置样式 */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            transition: all 0.3s ease;
-        }
-        
-        body {
-            font-family: 'sans-serif', sans-serif;
-            background: #e0e0e0;
-            display: grid;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            overflow-x: hidden;
-        }
-        
-        
-        .container {
-            width: 100%;
-            max-width: 400px;
-            margin: 0 auto;
-            padding: 40px;
-            box-sizing: border-box;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        
-        .container:hover {
-            transform: translateY(-5px);
-            box-shadow: 8px 8px 20px rgba(0, 0, 0, 0.2),
-                        -8px -8px 20px rgba(255, 255, 255, 0.9);
-        }
-        
-        .brand-intro, .contact-us, .tracks {
-            text-align: center;
-            padding: 40px 20px;
-            background-color: #f7f7f7;
-            border-radius: 16px;
-            margin-bottom: 20px;
-            box-shadow: 3px 3px 7px rgba(0, 0, 0, 0.1),
-                        -3px -3px 7px rgba(255, 255, 255, 0.6);
-            transition: box-shadow 0.3s ease;
-        }
-        
-        .brand-intro:hover, .contact-us:hover, .tracks:hover {
-            box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.2),
-                        -4px -4px 8px rgba(255, 255, 255, 0.7);
-        }
-        
-        h2 {
-            color: #333;
-            margin-bottom: 20px;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            font-weight: bold;
-        }
-        
-        p {
-            color: #666;
-            font-size: 16px;
-            line-height: 1.6;
-            margin-bottom: 20px;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
-        img {
-            width: 100%;
-            max-width: 600px;
-            height: auto;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.1),
-                        -5px -5px 15px rgba(255, 255, 255, 0.8);
-            transition: transform 0.3s ease;
-        }
-        
-        img:hover {
-            transform: scale(1.05);
-        }
-        
-        .social-links, .tracks-list {
-            list-style: none;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-        
-        .social-links li, .tracks-list li {
-            margin: 10px;
-        }
-        
-        .social-links a, .tracks-list a {
-            text-decoration: none;
-            color: #333;
-            font-weight: bold;
-            transition: color 0.3s ease, transform 0.3s ease;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
-        .social-links a:hover, .tracks-list a:hover {
-            text-decoration: underline;
-            color: #4ca1af;
-            transform: scale(1.1);
-        }
-        
-        /* 响应式设计 */
-        @media (max-width: 768px) {
-            .container {
-                padding: 10px;
-            }
-        
-            .embedded-form {
-                height: 300px; /* 降低高度以适应小屏幕 */
-            }
-        
-            h1, h2 {
-                font-size: 18px; /* 减小标题字体大小 */
-            }
-        
-            p {
-                font-size: 14px; /* 减小段落字体大小 */
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .container {
-                padding: 5px;
-            }
-        
-            .embedded-form {
-                height: 200px; /* 进一步降低高度以适应更小的屏幕 */
-            }
-        }
-    </style>
+    <title>Celestial RCRDS // Electronic Music Label</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+   <style>
+ a{
+ text-decoration: none;
+ }
+     a:link {
+  color: #FFFFFF; /* 默认链接颜色 */
+}
+ </style>
+  
 </head>
-
 <body>
-    <!-- 厂牌介绍部分 -->
-    <section class="contact-us">
-        <div class="container">
-            <h1>Celestial RCRDS</h1>
-            <p>「Celestial RCRDS 天体记录」，一个新兴的音乐厂牌，自2024/8/27起，以其独特的魅力和创新精神，迅速在音乐界崭露头角。我们正以无限的创造力和热情，共同推动着厂牌的不断成长和扩张。
-
-                在这里，每个人都可以勇敢地追逐自己的梦想，不受限制地探索音乐的可能性。我们相信，通过不懈的努力和创新，我们能够一起超越极限，达到梦想的云端。</p>
-
-            <p>加入「Celestial RCRDS」，成为我们的一部分，让我们一起在音乐的星空中翱翔，探索未知，创造未来。我们期待与您一起，让音乐的星光照亮每一个角落。
+    <div id="loader">
+        <div class="loader-content">
+            <div class="loader-logo">Celestial</div>
+            <div class="loader-progress"></div>
         </div>
-    </section>
+    </div>
 
+    <div class="container">
+        <header class="header glass-card">
+            <div class="header-content">
+                <h1 class="logo">CELESTIAL RCRDS</h1>
+                <p class="subtitle">Where Music Meets the Stars // Est. 2024</p>
+            </div>
+            <div class="header-bg"></div>
+        </header>
 
-    <!-- 发布过的曲目部分 -->
-    <section class="tracks">
-        <div class="container">
-            <h1>发行曲目</h1>
-            <p>探索我们发行的精选曲目：</p>
-            <ul class="tracks-list">
-                <li><a href="https://music.163.com/#/album?id=246759366" target="_blank">Image Of You</a></li>
-                <li><a href="https://music.163.com/#/album?id=247378266" target="_blank">U Like A Firefly</a></li>
-                <li><a href="https://music.163.com/#/album?id=248233410" target="_blank">Dissolution</a></li>
-                <li><a href="https://music.163.com/#/album?id=246699692" target="_blank">Gone In The Morning</a></li>
-                <!-- 更多曲目 -->
-            </ul>
-        </div>
-    </section>
-    <!-- 联系我们部分 -->
-    <section class="contact-us">
-        <div class="container">
+        <section class="latest-releases glass-card">
+            <h2>Latest Releases</h2>
+            <div class="release">
+                <div class="release-info">
+                    <div class="release-cover">
+                        <i class="fas fa-compact-disc"></i>
+                    </div>
+                    <div>
+                        <h3>U Like A Firefly</h3>
+                        <p>by Meng long</p>
+                    </div>
+                </div>
+                <button class="play-button">
+                    <i class="fas fa-play"></i> <a href="https://music.163.com/#/album?id=247378266">Listen Now</a>
+                </button>
+            </div>
+            <div class="release">
+                <div class="release-info">
+                    <div class="release-cover">
+                        <i class="fas fa-compact-disc"></i>
+                    </div>
+                    <div>
+                        <h3>Gone In The Morning</h3>
+                        <p>by ZM-Yong</p>
+                    </div>
+                </div>
+                <button class="play-button">
+                    <i class="fas fa-play"></i> <a href="https://music.163.com/#/album?id=246699692">Listen Now</a>
+                </button>
+            </div>
+                      <div class="release">
+                <div class="release-info">
+                    <div class="release-cover">
+                        <i class="fas fa-compact-disc"></i>
+                    </div>
+                    <div>
+                        <h3>Image Of You</h3>
+                        <p>by VeloNeon & Rayee</p>
+                    </div>
+                </div>
+              
+                <button class="play-button">
+                    <i class="fas fa-play"></i> <a href="https://music.163.com/#/album?id=246759366">Listen Now</a>
+                </button>
+            </div>
+                      <div class="release">
+                <div class="release-info">
+                    <div class="release-cover">
+                        <i class="fas fa-compact-disc"></i>
+                    </div>
+                    <div>
+                        <h3>Amidst the stars</h3>
+                        <p>by CyberNexi</p>
+                    </div>
+                </div>
+              
+                <button class="play-button">
+                    <i class="fas fa-play"></i> <a href="https://music.163.com/#/album?id=246696446">Listen Now</a>
+                </button>
+            </div>
+        </section>
 
-            <h1>联系我们以及投稿</h1>
-            <p>更多信息</p>
-            <ul class="social-links">
-                <li><a href="https://space.bilibili.com/3546768253913631" target="_blank">Bilibili</a></li>
-                <li><a href="https://music.163.com/#/artist?id=94949855" target="_blank">网易云</a></li>
-                <li><a href="https://y.qq.com/n/ryqq/singer/004fHI8a4EhZLL" target="_blank">QQ Music</a></li>
-                <li><a href="https://www.kugou.com/singer/info/D28HQKBFC65B69/" target="_blank">KuGou</a></li>
-                <!-- 更多链接 -->
-                <li>
-                    <p4>投稿至邮箱 </p4>
-                </li>
+        <section class="artists-grid">
+            <div class="glass-card artist-card">
+                <div class="artist-image">
+                    <i class="fas fa-user"></i>
+                </div>
+                <h3 class="artist-name">CyberNexi</h3>
+                <p class="artist-bio">创始人/主理/A&R/美工/发行管理/文案/宣发
+              Founder/Manager/A&R/Artist/Distribution Management/Copywriting/Promotion</p>
+                              <button class="play-button">
+                    <i class="fa-solid fa-music"></i> <a href="https://music.163.com/#/artist?id=58143422">Link</a>
+                </button>
+            </div>
+            <div class="glass-card artist-card">
+                <div class="artist-image">
+                    <i class="fas fa-user"></i>
+                </div>
+                <h3 class="artist-name">LeoMusic-Effect
+</h3>
+                <p class="artist-bio">副主理 / 审核
+              Vice President/Reviewer</p>
+                              <p2 class="artist-bio"></p2>
+                                            <button class="play-button">
+                    <i class="fa-solid fa-music"></i> <a href="https://music.163.com/#/artist?id=49802925">Link</a>
+                </button>
+              
+            </div>
+            <div class="glass-card artist-card">
+                <div class="artist-image">
+                    <i class="fas fa-user"></i>
+                </div>
+                <h3 class="artist-name">LENG CHEK</h3>
+                <p class="artist-bio">A&R/艺人
+              A&E/Artist</p>
+                                            <button class="play-button">
+                    <i class="fa-solid fa-music"></i> <a href="https://music.163.com/#/artist?id=61346585">Link</a>
+                </button>
+            </div>
+          
+        </section>
 
-                <h2><a href="mailto:celestialrcrds@foxmail.com">Celestialrcrds@foxmail.com</a></h2>
-                <li>
-                    <p4>转至节奏阵列以投稿 </p4>
-                </li>
+        <section class="contact-section glass-card">
+            <h2>Connect With Us</h2>
+            <div class="contact-info">
+                <div class="contact-card">
+                    <div class="contact-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <h3 class="contact-text">General Inquiries</h3>
+                    <a href="mailto:celestialrcrds@foxmail.com" class="contact-link">contact@celestialrcrds.com</a>
+                </div>
+                <div class="contact-card">
+                    <div class="contact-icon">
+                        <i class="fas fa-music"></i>
+                    </div>
+                    <h3 class="contact-text">Demo Submissions</h3>
+                    <a href="https://www.beatarray.com/label/CelestialRCRDS" class="contact-link">demos@beatarray.com</a>
+                </div>
+                <div class="contact-card">
+                    <div class="contact-icon">
+                        <i class="fas fa-briefcase"></i>
+                    </div>
+                    <h3 class="contact-text">Business & Press</h3>
+                    <a href="http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=TJuQwUw9hPn9TILp1SmM5OslBD5erMJD&authKey=z%2FbsELQFGfLwf5hNq60ZSaKU%2FlJwDJKw6pGQesDKg%2F04qJ1Aw9sAapP41dRmyCAy&noverify=0&group_code=883853711" class="contact-link">press@QQgroup</a>
+                </div>
+            </div>
+        </section>
 
-                <h2><a href="https://www.beatarray.com/label/CelestialRCRDS" target="_blank">This Link To Submit </a></h2>
+        <footer class="glass-card footer">
+            <div class="footer-links">
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="https://www.beatarray.com/label/CelestialRCRDS">About Us</a></li>
+                        <li><a href="https://music.163.com/#/playlist?id=12565986756">Releases</a></li>
+                        <li><a href="#">Artists</a></li>
+                        <li><a href="#">Events</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Artists</h4>
+                    <ul>
+                        <li><a href="#">CyberNexi</a></li>
+                        <li><a href="#">LeoMusic-Effect
+</a></li>
+                        <li><a href="#">LENG CHEK</a></li>
+                        <li><a href="https://www.beatarray.com/label/CelestialRCRDS">Submit Demo</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Licensing</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="social-links">
+                <a href="https://open.spotify.com/artist/2ARDfIfjmNhfGlEERCHsx0?si=7cTmiA5lRYeoGJKoeFRzag" title="Spotify"><i class="fab fa-spotify fa-2x"></i></a>
+                <a href="#" title="SoundCloud"><i class="fab fa-soundcloud fa-2x"></i></a>
+                <a href="https://www.instagram.com/celestial_rcrds?igsh=OGQ5ZDc2ODk2ZA==" title="Instagram"><i class="fab fa-instagram fa-2x"></i></a>
+                <a href="https://twitter.com/CyberNexi?s=09" title="Twitter"><i class="fab fa-twitter fa-2x"></i></a>
+                <a href="https://space.bilibili.com/3546768253913631" title="Bilibili"><i class="fa-solid fa-clapperboard fa-2x"></i></a>
+                <a href="https://discord.gg/cvEZfPTGhf" title="Discord"><i class="fab fa-discord fa-2x"></i></a>
+                              <a href="https://music.163.com/#/artist?id=94949855" title="Celestial RCRDS"><i class="fa-solid fa-music fa-2x"></i></a>
+            </div>
+            
+            <p>&copy; 2024 Celestial RCRDS. All rights reserved. Website by CyberNexi</p>
+        </footer>
+    </div>
 
-            </ul>
-        </div>
-    </section>
-
+    <script>
+        window.addEventListener('load', () => {
+            const loader = document.getElementById('loader');
+            const progress = document.querySelector('.loader-progress');
+            
+            let width = 0;
+            const interval = setInterval(() => {
+                if (width >= 100) {
+                    clearInterval(interval);
+                    loader.style.opacity = '0';
+                    setTimeout(() => {
+                        loader.style.display = 'none';
+                    }, 300);
+                } else {
+                    width += 3;
+                    progress.style.width = width + '%';
+                }
+            }, 15);
+        });
+    </script>
 </body>
-
-<style></style>
-<script></script>
-
 </html>
